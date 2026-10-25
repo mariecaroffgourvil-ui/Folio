@@ -482,7 +482,7 @@ function openProductDialog(board, product) {
   $('#p-image').value = product?.image || '';
   $('#p-tag-input').value = '';
   $('#tag-suggestions').innerHTML = board.tags.map((t) => `<option value="${esc(t.name)}">`).join('');
-  setStatus(product ? '' : 'Colle le lien : les infos se remplissent automatiquement si le relais est configuré.');
+  setStatus(product ? '' : 'Colle le lien : les infos se remplissent automatiquement.');
   renderChips();
   updatePreview();
   dlgProduct.showModal();
