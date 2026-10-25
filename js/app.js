@@ -126,7 +126,9 @@ async function renderHome() {
   document.title = 'Folio';
   app.innerHTML = `
     <section class="home">
-      <h1 class="page-title"><em>Bienvenue</em><span class="name">${esc(firstName(session.user))},</span></h1>
+      <div class="hero">
+        <h1 class="page-title"><em>Bienvenue</em><span class="name">${esc(firstName(session.user))},</span></h1>
+      </div>
       <div class="toolbar">
         <input id="home-search" class="search" type="search" placeholder="Rechercher une épingle" autocomplete="off">
         <button class="btn" id="btn-new-board" type="button">Créer un tableau</button>
