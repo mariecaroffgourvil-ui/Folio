@@ -51,15 +51,16 @@ em { font-family: var(--font-accent); font-style: italic; font-weight: 400; }
   color: #fff;
 }
 .topbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
   padding: 18px 16px;
 }
-.brand { display: flex; align-items: center; gap: 16px; text-decoration: none; }
+.brand { display: flex; align-items: center; text-decoration: none; justify-self: start; }
 .logo { height: 34px; width: auto; filter: invert(1); }
-.tagline { font-size: 15px; color: #fff; line-height: 1.2; }
+.tagline { margin: 0; font-size: 15px; color: #fff; line-height: 1.2; text-align: center; white-space: nowrap; }
+.topbar-end { justify-self: end; }
 
 .footer {
   background: var(--ink);
@@ -71,7 +72,8 @@ em { font-family: var(--font-accent); font-style: italic; font-weight: 400; }
 .footer p { margin: 0; }
 
 /* ---------- Écran de connexion (plein noir) ---------- */
-body.is-login { background: var(--ink); }
+body.is-login { background: #000 url("../assets/login-bg.jpg") center / cover no-repeat fixed; }
+body.is-login .topbar { display: none; }
 body.is-login .container { padding: 0; }
 body.is-login .footer { display: none; }
 .login {
