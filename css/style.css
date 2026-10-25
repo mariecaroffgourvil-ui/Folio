@@ -191,6 +191,20 @@ input:focus, select:focus, button:focus-visible, a:focus-visible {
 .inline-form { display: flex; align-items: flex-end; gap: 8px; }
 .inline-form .field { flex: 1; }
 
+
+/* Bande photo de l'accueil */
+.hero {
+  background: #000 url("../assets/login-bg.jpg") center / cover no-repeat;
+  color: #fff;
+  padding: 72px 40px;
+  margin: 0 0 40px;
+  border-radius: 2px;
+}
+.hero .page-title { color: #fff; margin: 0; }
+@media (max-width: 520px) {
+  .hero { padding: 48px 24px; }
+}
+
 /* ---------- Accueil ---------- */
 .toolbar {
   display: flex;
