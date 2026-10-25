@@ -22,7 +22,7 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
-  background: var(--bg);
+  background: var(--surface);
   color: var(--ink);
   font-family: var(--font);
   font-size: 16px;
