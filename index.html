@@ -4,8 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Folio — Keep what you love.</title>
-  <meta name="description" content="Crée des tableaux de produits qui t'inspirent, ajoute-les par lien et garde tout au même endroit.">
+  <meta name="description" content="Crée des tableaux d'épingles, ajoute tes produits préférés et garde tout au même endroit.">
   <link rel="icon" href="assets/folio.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,22 +17,20 @@
       <img src="assets/folio.svg" alt="Folio" class="logo">
       <span class="tagline">Keep what you love.</span>
     </a>
-    <nav class="topbar-actions">
-      <button class="btn ghost" id="btn-settings" type="button">Réglages</button>
-      <button class="btn ghost" id="btn-export" type="button">Exporter</button>
-      <label class="btn ghost file-btn">Importer
-        <input type="file" id="file-import" accept="application/json,.json">
-      </label>
-    </nav>
+    <button class="btn light small" id="btn-menu" type="button" hidden>Menu</button>
   </header>
 
   <main id="app" class="container"></main>
 
-  <!-- Ajout / modification d'un produit -->
+  <footer class="footer">
+    <p>Mentions légales</p>
+  </footer>
+
+  <!-- Créer / modifier une épingle -->
   <dialog id="dlg-product" class="dialog">
     <form id="form-product" class="product-form" novalidate>
       <header class="dialog-head">
-        <h2 id="dlg-product-title">Ajouter un produit</h2>
+        <h2 id="dlg-product-title">Créer une épingle</h2>
         <button type="button" class="icon-btn" data-close aria-label="Fermer">×</button>
       </header>
 
@@ -69,34 +70,56 @@
         </label>
       </div>
 
+      <div class="field">Tags
+        <div class="tag-input">
+          <div class="chips" id="p-chips"></div>
+          <input id="p-tag-input" list="tag-suggestions" placeholder="Ajouter un tag, puis Entrée" maxlength="30" autocomplete="off">
+        </div>
+        <datalist id="tag-suggestions"></datalist>
+      </div>
+
       <footer class="dialog-foot">
         <button type="button" class="btn ghost" data-close>Annuler</button>
-        <button type="submit" class="btn">Enregistrer</button>
+        <button type="submit" class="btn" id="p-save">Enregistrer</button>
       </footer>
     </form>
   </dialog>
 
-  <!-- Réglages -->
-  <dialog id="dlg-settings" class="dialog">
-    <form id="form-settings" class="product-form">
+  <!-- Menu : compte, réglages, export, déconnexion -->
+  <dialog id="dlg-menu" class="dialog">
+    <div class="product-form">
       <header class="dialog-head">
-        <h2>Réglages</h2>
+        <h2>Menu</h2>
         <button type="button" class="icon-btn" data-close aria-label="Fermer">×</button>
       </header>
-      <label class="field">Adresse du relais Cloudflare
-        <input id="set-worker" type="url" placeholder="https://folio-relay.ton-compte.workers.dev">
-      </label>
-      <p class="muted small">Sans relais, tout fonctionne quand même : tu remplis les champs à la main.</p>
-      <footer class="dialog-foot">
-        <button type="button" class="btn ghost" data-close>Annuler</button>
-        <button type="submit" class="btn">Enregistrer</button>
-      </footer>
-    </form>
+
+      <p class="muted small" id="m-email"></p>
+
+      <form id="form-name" class="inline-form">
+        <label class="field">Prénom affiché
+          <input id="m-name" maxlength="40">
+        </label>
+        <button class="btn" type="submit">Enregistrer</button>
+      </form>
+
+      <form id="form-settings" class="inline-form">
+        <label class="field">Adresse du relais Cloudflare
+          <input id="m-worker" type="url" placeholder="https://folio.<ton-compte>.workers.dev">
+        </label>
+        <button class="btn" type="submit">Enregistrer</button>
+      </form>
+
+      <div class="menu-actions">
+        <button class="btn ghost" id="m-export" type="button">Exporter mes données</button>
+        <button class="btn" id="m-logout" type="button">Se déconnecter</button>
+      </div>
+    </div>
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <script src="js/config.js"></script>
   <script src="js/scraper.js"></script>
-  <script src="js/app.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
