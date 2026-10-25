@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Folio — Keep what you love.</title>
+  <meta name="description" content="Crée des tableaux de produits qui t'inspirent, ajoute-les par lien et garde tout au même endroit.">
+  <link rel="icon" href="assets/folio.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="#/" class="brand" aria-label="Folio, accueil">
+      <img src="assets/folio.svg" alt="Folio" class="logo">
+      <span class="tagline">Keep what you love.</span>
+    </a>
+    <nav class="topbar-actions">
+      <button class="btn ghost" id="btn-settings" type="button">Réglages</button>
+      <button class="btn ghost" id="btn-export" type="button">Exporter</button>
+      <label class="btn ghost file-btn">Importer
+        <input type="file" id="file-import" accept="application/json,.json">
+      </label>
+    </nav>
+  </header>
+
+  <main id="app" class="container"></main>
+
+  <!-- Ajout / modification d'un produit -->
+  <dialog id="dlg-product" class="dialog">
+    <form id="form-product" class="product-form" novalidate>
+      <header class="dialog-head">
+        <h2 id="dlg-product-title">Ajouter un produit</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Fermer">×</button>
+      </header>
+
+      <label class="field">Lien du produit
+        <div class="url-row">
+          <input id="p-url" type="url" placeholder="https://…" autocomplete="off">
+          <button type="button" class="btn ghost" id="p-fetch">Récupérer</button>
+        </div>
+      </label>
+      <p id="p-status" class="status" role="status"></p>
+
+      <div class="preview" id="p-preview"></div>
+
+      <div class="grid-2">
+        <label class="field span-2">Titre
+          <input id="p-title" maxlength="200">
+        </label>
+        <label class="field">Marque
+          <input id="p-brand" maxlength="80">
+        </label>
+        <label class="field">Site
+          <input id="p-site" maxlength="80" placeholder="ex. zara.com">
+        </label>
+        <label class="field">Prix
+          <input id="p-price" type="number" min="0" step="0.01" inputmode="decimal">
+        </label>
+        <label class="field">Devise
+          <select id="p-currency">
+            <option>EUR</option>
+            <option>USD</option>
+            <option>GBP</option>
+            <option>CHF</option>
+          </select>
+        </label>
+        <label class="field span-2">Adresse de la photo
+          <input id="p-image" type="url" placeholder="https://…">
+        </label>
+      </div>
+
+      <footer class="dialog-foot">
+        <button type="button" class="btn ghost" data-close>Annuler</button>
+        <button type="submit" class="btn">Enregistrer</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Réglages -->
+  <dialog id="dlg-settings" class="dialog">
+    <form id="form-settings" class="product-form">
+      <header class="dialog-head">
+        <h2>Réglages</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Fermer">×</button>
+      </header>
+      <label class="field">Adresse du relais Cloudflare
+        <input id="set-worker" type="url" placeholder="https://folio-relay.ton-compte.workers.dev">
+      </label>
+      <p class="muted small">Sans relais, tout fonctionne quand même : tu remplis les champs à la main.</p>
+      <footer class="dialog-foot">
+        <button type="button" class="btn ghost" data-close>Annuler</button>
+        <button type="submit" class="btn">Enregistrer</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/scraper.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
