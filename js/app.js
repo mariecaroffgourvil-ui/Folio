@@ -111,6 +111,25 @@ function pinCard(p, boardId, boardName = '', withDelete = false) {
 }
 
 /* ---------- Connexion ---------- */
+const TAGLINE = 'Keep what\nyou love.';
+
+/* Écrit la baseline lettre par lettre, après le fondu du logo. */
+function typeTagline(el) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = TAGLINE;
+    return;
+  }
+  el.textContent = '';
+  el.classList.add('typing');
+  let i = 0;
+  const tick = () => {
+    el.textContent = TAGLINE.slice(0, ++i);
+    if (i < TAGLINE.length) setTimeout(tick, 70);
+    else el.classList.remove('typing');
+  };
+  setTimeout(tick, 2000);
+}
+
 function renderLogin() {
   setLoggedOut();
   document.title = 'Folio — Keep what you love.';
@@ -119,10 +138,11 @@ function renderLogin() {
       <div class="login-brand">
         <img src="assets/folio.svg" alt="Folio" class="logo logo-light">
         <span class="login-sep" aria-hidden="true"></span>
-        <p class="login-tag">Keep what<br>you love.</p>
+        <p class="login-tag" id="login-tag"></p>
       </div>
       <button class="btn light" id="btn-login" type="button">Connexion avec Google</button>
     </section>`;
+  typeTagline($('#login-tag'));
   $('#btn-login').onclick = async () => {
     const { error } = await auth.signIn();
     if (error) toast(errMsg(error));

@@ -564,3 +564,39 @@ input:focus, select:focus, button:focus-visible, a:focus-visible {
 .pin-actions { margin-top: 8px; }
 .pin-actions .btn { margin-top: 0; }
 .pin-note { margin: 0; white-space: pre-wrap; color: var(--ink); }
+
+/* ---------- Animation de la page de connexion ---------- */
+/* Ordre : fond, puis logo et baseline (écrite en machine à écrire), puis bouton. */
+body.is-login { background: #000; }
+body.is-login::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url("../assets/login-bg.jpg") center / cover no-repeat;
+  animation: folioFade 1.2s ease both;
+}
+body.is-login .container { position: relative; z-index: 1; }
+.login-brand .logo-light { animation: folioFade 0.8s ease 1.2s both; }
+.login-tag { white-space: pre-line; min-height: 2.4em; }
+.login-tag.typing::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  margin-left: 3px;
+  vertical-align: -0.1em;
+  background: currentColor;
+  animation: folioBlink 1s steps(1) infinite;
+}
+#btn-login { animation: folioFade 0.6s ease 3.3s both; }
+
+@keyframes folioFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes folioBlink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  body.is-login::before,
+  .login-brand .logo-light,
+  #btn-login { animation: none; }
+  .login-tag.typing::after { animation: none; }
+}
