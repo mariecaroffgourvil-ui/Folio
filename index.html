@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Folio — Keep what you love.</title>
+  <meta name="description" content="Crée des tableaux d'épingles, ajoute tes produits préférés et garde tout au même endroit.">
+  <link rel="icon" href="assets/folio.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="#/" class="brand" aria-label="Folio, accueil">
+      <img src="assets/folio.svg" alt="Folio" class="logo">
+      <span class="tagline">Keep what you love.</span>
+    </a>
+    <button class="btn light small" id="btn-menu" type="button" hidden>Menu</button>
+  </header>
+
+  <main id="app" class="container"></main>
+
+  <footer class="footer">
+    <p>Mentions légales</p>
+  </footer>
+
+  <!-- Créer / modifier une épingle -->
+  <dialog id="dlg-product" class="dialog">
+    <form id="form-product" class="product-form" novalidate>
+      <header class="dialog-head">
+        <h2 id="dlg-product-title">Créer une épingle</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Fermer">×</button>
+      </header>
+
+      <label class="field">Lien du produit
+        <div class="url-row">
+          <input id="p-url" type="url" placeholder="https://…" autocomplete="off">
+          <button type="button" class="btn ghost" id="p-fetch">Récupérer</button>
+        </div>
+      </label>
+      <p id="p-status" class="status" role="status"></p>
+
+      <div class="preview" id="p-preview"></div>
+
+      <div class="grid-2">
+        <label class="field span-2">Titre
+          <input id="p-title" maxlength="200">
+        </label>
+        <label class="field">Marque
+          <input id="p-brand" maxlength="80">
+        </label>
+        <label class="field">Site
+          <input id="p-site" maxlength="80" placeholder="ex. zara.com">
+        </label>
+        <label class="field">Prix
+          <input id="p-price" type="number" min="0" step="0.01" inputmode="decimal">
+        </label>
+        <label class="field">Devise
+          <select id="p-currency">
+            <option>EUR</option>
+            <option>USD</option>
+            <option>GBP</option>
+            <option>CHF</option>
+          </select>
+        </label>
+        <label class="field span-2">Adresse de la photo
+          <input id="p-image" type="url" placeholder="https://…">
+        </label>
+      </div>
+
+      <div class="field">Tags
+        <div class="tag-input">
+          <div class="chips" id="p-chips"></div>
+          <input id="p-tag-input" list="tag-suggestions" placeholder="Ajouter un tag, puis Entrée" maxlength="30" autocomplete="off">
+        </div>
+        <datalist id="tag-suggestions"></datalist>
+      </div>
+
+      <footer class="dialog-foot">
+        <button type="button" class="btn ghost" data-close>Annuler</button>
+        <button type="submit" class="btn" id="p-save">Enregistrer</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Menu : compte, réglages, export, déconnexion -->
+  <dialog id="dlg-menu" class="dialog">
+    <div class="product-form">
+      <header class="dialog-head">
+        <h2>Menu</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Fermer">×</button>
+      </header>
+
+      <p class="muted small" id="m-email"></p>
+
+      <form id="form-name" class="inline-form">
+        <label class="field">Prénom affiché
+          <input id="m-name" maxlength="40">
+        </label>
+        <button class="btn" type="submit">Enregistrer</button>
+      </form>
+
+      <form id="form-settings" class="inline-form">
+        <label class="field">Adresse du relais Cloudflare
+          <input id="m-worker" type="url" placeholder="https://folio.<ton-compte>.workers.dev">
+        </label>
+        <button class="btn" type="submit">Enregistrer</button>
+      </form>
+
+      <div class="menu-actions">
+        <button class="btn ghost" id="m-export" type="button">Exporter mes données</button>
+        <button class="btn" id="m-logout" type="button">Se déconnecter</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/scraper.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
