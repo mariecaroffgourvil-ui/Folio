@@ -197,7 +197,6 @@ async function renderBoard(id) {
       <div class="board-head">
         <h1 class="page-title"><em>${esc(board.name)}</em></h1>
         <div class="row">
-          <button class="link" id="btn-share" type="button">Partager</button>
           <button class="link" id="btn-rename" type="button">Renommer</button>
           <button class="link danger" id="btn-delete-board" type="button">Supprimer le tableau</button>
         </div>
@@ -206,6 +205,7 @@ async function renderBoard(id) {
         <input id="b-search" class="search" type="search" placeholder="Rechercher une épingle" value="${esc(filters.q)}" autocomplete="off">
         <button class="btn" id="btn-add" type="button">Créer une épingle</button>
         <button class="btn ghost" id="btn-filters" type="button" aria-expanded="${filters.open}">Filtres</button>
+        <button class="btn ghost" id="btn-share" type="button">Partager</button>
       </div>
       <div id="filters-panel" class="filters" ${filters.open ? '' : 'hidden'}></div>
       <p class="count" id="count"></p>
