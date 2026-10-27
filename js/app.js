@@ -57,7 +57,7 @@ const newFilters = (boardId) => ({
 /* ---------- État ---------- */
 let session = null;
 let homeBoards = [];
-let current = null;                    // tableau affiché
+let current = null;                    // Folio affiché
 let filters = newFilters(null);
 
 const setLoggedIn = () => { document.body.classList.remove('is-login'); $('#btn-menu').hidden = false; };
@@ -160,13 +160,13 @@ async function renderHome() {
       </div>
       <div class="toolbar">
         <input id="home-search" class="search" type="search" placeholder="Rechercher une épingle" autocomplete="off">
-        <button class="btn" id="btn-new-board" type="button">Créer un tableau</button>
+        <button class="btn" id="btn-new-board" type="button">Créer un Folio</button>
       </div>
       <div id="home-body">${loading()}</div>
     </section>`;
 
   $('#btn-new-board').onclick = async () => {
-    const name = clip(prompt('Nom du tableau (ex. Déco)') || '', 60);
+    const name = clip(prompt('Nom du Folio (ex. Déco)') || '', 60);
     if (!name) return;
     try {
       const b = await createBoard(name);
@@ -191,7 +191,7 @@ function renderHomeBody(q) {
   if (!needle) {
     body.innerHTML = homeBoards.length
       ? `<div class="board-grid">${homeBoards.map(boardCard).join('')}</div>`
-      : '<p class="empty">Aucun tableau pour l’instant. Crée le premier.</p>';
+      : '<p class="empty">Aucun Folio pour l’instant. Crée le premier.</p>';
     return;
   }
 
@@ -203,7 +203,7 @@ function renderHomeBody(q) {
     : `<p class="empty">Aucune épingle ne correspond à « ${esc(q)} ».</p>`;
 }
 
-/* ---------- Tableau ---------- */
+/* ---------- Folio ---------- */
 async function renderBoard(id) {
   setLoggedIn();
   app.innerHTML = loading();
@@ -219,14 +219,14 @@ async function renderBoard(id) {
 
   app.innerHTML = `
     <section class="board">
-      <a class="back" href="#/">← Retour aux tableaux</a>
+      <a class="back" href="#/">← Retour aux Folios</a>
       <div class="board-head">
         <h1 class="page-title"><em>${esc(board.name)}</em></h1>
         <div class="row">
           <button class="link" id="btn-cover" type="button">Changer la photo</button>
           ${board.cover_url ? '<button class="link" id="btn-cover-reset" type="button">Retirer la photo</button>' : ''}
           <button class="link" id="btn-rename" type="button">Renommer</button>
-          <button class="link danger" id="btn-delete-board" type="button">Supprimer le tableau</button>
+          <button class="link danger" id="btn-delete-board" type="button">Supprimer le Folio</button>
         </div>
       </div>
       <div class="toolbar">
@@ -262,7 +262,7 @@ async function renderBoard(id) {
   };
 
   $('#btn-rename').onclick = async () => {
-    const name = clip(prompt('Nouveau nom du tableau', current.name) || '', 60);
+    const name = clip(prompt('Nouveau nom du Folio', current.name) || '', 60);
     if (!name) return;
     try { await renameBoard(current.id, name); route(); } catch (e) { toast(errMsg(e)); }
   };
@@ -270,7 +270,7 @@ async function renderBoard(id) {
     if (!confirm(`Supprimer « ${current.name} » et toutes ses épingles ?`)) return;
     try {
       await deleteBoard(current.id);
-      toast('Tableau supprimé');
+      toast('Folio supprimé');
       go('#/');
     } catch (e) { toast(errMsg(e)); }
   };
@@ -309,7 +309,7 @@ document.addEventListener('click', async (e) => {
   } catch (err) { toast(errMsg(err)); }
 });
 
-/* ---------- Photo du tableau ---------- */
+/* ---------- Photo du Folio ---------- */
 $('#cover-input').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   e.target.value = '';
@@ -321,14 +321,14 @@ $('#cover-input').addEventListener('change', async (e) => {
   try {
     const url = await uploadCover(current.id, session.user.id, file);
     await setBoardCover(current.id, url);
-    toast('Photo du tableau mise à jour');
+    toast('Photo du Folio mise à jour');
     route();
   } catch (err) {
     toast(errMsg(err));
   }
 });
 
-/* ---------- Partage du tableau ---------- */
+/* ---------- Partage du Folio ---------- */
 const dlgShare = $('#dlg-share');
 const shareLink = (token) => `${location.origin}${location.pathname}#/share/${token}`;
 
@@ -492,7 +492,7 @@ function renderGrid(board) {
     : `${list.length} sur ${plural(total, 'épingle')}`;
 
   let html;
-  if (!total) html = '<p class="empty">Ce tableau est vide. Ajoute ta première épingle.</p>';
+  if (!total) html = '<p class="empty">Ce Folio est vide. Ajoute ta première épingle.</p>';
   else if (!list.length) html = '<p class="empty">Aucune épingle ne correspond à ces filtres.</p>';
   else html = list.map((p) => pinCard(p, board.id, '', true)).join('');
   $('#grid').innerHTML = html;
@@ -518,7 +518,7 @@ async function renderPin(bid, pid) {
 
   app.innerHTML = `
     <section class="pin">
-      <a class="back" href="#/board/${esc(bid)}">← Retour au tableau</a>
+      <a class="back" href="#/board/${esc(bid)}">← Retour au Folio</a>
       <h1 class="page-title"><em>${esc(board.name)}</em></h1>
       <div class="pin-layout">
         <div class="pin-media">
@@ -541,7 +541,7 @@ async function renderPin(bid, pid) {
           ${link ? `<a class="btn" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Accéder à l’article</a>` : ''}
           <div class="row pin-actions">
             <button class="btn ghost" id="pin-like" type="button">${likeLabel(p.liked)}</button>
-            <button class="btn ghost" id="pin-copy" type="button">Ajouter à un autre tableau</button>
+            <button class="btn ghost" id="pin-copy" type="button">Ajouter à un autre Folio</button>
           </div>
           <div class="row">
             <button class="link" id="pin-edit" type="button">Modifier</button>
@@ -757,7 +757,7 @@ $('#form-product').addEventListener('submit', async (e) => {
   }
 });
 
-/* Enregistre l'épingle puis propose de l'ajouter à d'autres tableaux. */
+/* Enregistre l'épingle puis propose de l'ajouter à d'autres Folios. */
 $('#p-copy').addEventListener('click', async () => {
   const data = readProductForm();
   if (!data) return;
@@ -820,7 +820,7 @@ document.querySelectorAll('[data-close]').forEach((btn) => {
   btn.addEventListener('click', () => btn.closest('dialog').close());
 });
 
-/* ---------- Ajouter une épingle à d'autres tableaux (copie indépendante) ---------- */
+/* ---------- Ajouter une épingle à d'autres Folios (copie indépendante) ---------- */
 const dlgCopy = $('#dlg-copy');
 let copySource = null;
 
@@ -837,14 +837,14 @@ async function openCopy(board, p, names) {
         <input type="checkbox" value="${esc(b.id)}">
         <span>${esc(b.name)}</span>
       </label>`).join('')
-    : '<p class="muted small">Tu n’as pas encore d’autre tableau. Crées-en un d’abord.</p>';
+    : '<p class="muted small">Tu n’as pas encore d’autre Folio. Crées-en un d’abord.</p>';
   $('#c-save').disabled = !others.length;
   dlgCopy.showModal();
 }
 
 $('#c-save').addEventListener('click', async () => {
   const ids = [...$('#c-list').querySelectorAll('input:checked')].map((i) => i.value);
-  if (!ids.length || !copySource) return toast('Choisis au moins un tableau.');
+  if (!ids.length || !copySource) return toast('Choisis au moins un Folio.');
 
   const { product: p, tagNames } = copySource;
   const data = {
@@ -863,7 +863,7 @@ $('#c-save').addEventListener('click', async () => {
   try {
     for (const id of ids) await saveProduct(id, data, tagNames);
     dlgCopy.close();
-    toast(ids.length > 1 ? 'Épingle ajoutée aux tableaux' : 'Épingle ajoutée au tableau');
+    toast(ids.length > 1 ? 'Épingle ajoutée aux Folios' : 'Épingle ajoutée au Folio');
   } catch (e) {
     toast(errMsg(e));
   } finally {
@@ -919,7 +919,7 @@ async function renderShared(token) {
   app.innerHTML = `
     <section class="shared">
       <div class="hero">
-        <h1 class="page-title"><em>Bienvenue sur le tableau</em> ${esc(board.name)}${owner ? ` de ${esc(owner)}` : ''}</h1>
+        <h1 class="page-title"><em>Bienvenue sur le Folio</em> ${esc(board.name)}${owner ? ` de ${esc(owner)}` : ''}</h1>
       </div>
       ${products.length
         ? `<div class="grid">${products.map(sharedCard).join('')}</div>`
